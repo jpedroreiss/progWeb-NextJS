@@ -15,7 +15,8 @@ import type {
   Estatisticas,
 } from "@/types";
 
-const BASE_URL = "http://127.0.0.1:8000/api";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
+export const BACKEND_BASE_URL = BASE_URL.replace(/\/api\/?$/, "");
 
 // ─── Utilitário interno ────────────────────────────────────────────────────────
 

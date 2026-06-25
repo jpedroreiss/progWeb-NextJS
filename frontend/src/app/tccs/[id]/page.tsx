@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { tccsApi, alunosApi, professoresApi } from "@/services/api";
+import {
+  BACKEND_BASE_URL,
+  tccsApi,
+  alunosApi,
+  professoresApi,
+} from "@/services/api";
 import StatusBadge from "@/components/ui/StatusBadge";
 import StatusChanger from "./StatusChanger";
 import type { Aluno, Professor } from "@/types";
@@ -27,7 +32,7 @@ export default async function TCCDetailPage({ params }: PageProps) {
   const alunoMap = Object.fromEntries(alunos.map((a: Aluno) => [a.id, a.nome]));
   const profMap  = Object.fromEntries(professores.map((p: Professor) => [p.id, p.nome]));
 
-  const BACKEND_URL = "http://127.0.0.1:8000";
+  const BACKEND_URL = BACKEND_BASE_URL;
 
   return (
     <div className="max-w-3xl space-y-6">

@@ -3,6 +3,8 @@ import { Geist } from "next/font/google";
 import Sidebar from "@/components/layout/Sidebar";
 import "./globals.css";
 
+export const dynamic = "force-dynamic";
+
 const geist = Geist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {

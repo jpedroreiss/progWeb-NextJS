@@ -1,8 +1,8 @@
-import { tccsApi, alunosApi, professoresApi } from "@/services/api";
+import { BACKEND_BASE_URL, tccsApi, alunosApi, professoresApi } from "@/services/api";
 import type { Aluno, Professor } from "@/types";
 import TCCsClient from "./TCCsClient";
 
-const BACKEND_URL = "http://127.0.0.1:8000";
+const BACKEND_URL = BACKEND_BASE_URL;
 
 export default async function TCCsPage() {
   const [tccs, alunos, professores] = await Promise.all([

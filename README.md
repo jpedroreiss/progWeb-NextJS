@@ -1,29 +1,51 @@
-# Projeto de Gestão de TCCs
+# 🚀 Gestão de TCCs
 
-Este projeto é uma API REST para gerenciamento de Trabalhos de Conclusão de Curso (TCC), Alunos e Professores. Ele serve como base para o desenvolvimento de um frontend na tecnologia de sua escolha. O backend do projeto já está pronto e foi desenvolvido usando Django REST Framework - DRF.
+## 📌 Sobre o Projeto
 
-## Material de Apoio
+O **Gestão de TCCs** é um sistema web desenvolvido para a disciplina de **Programação Web (GAC116)** da Universidade Federal de Lavras (UFLA).
 
-* [django-rest-framework](https://www.django-rest-framework.org/)
+O projeto consiste em uma plataforma para gerenciamento de Trabalhos de Conclusão de Curso (TCC), Alunos e Professores. O backend foi pré-desenvolvido utilizando Django REST Framework (DRF), e a interface web foi construída para consumir essa API e oferecer uma experiência completa de gerenciamento e visualização de dados acadêmicos.
 
-## Requisitos do Trabalho
+---
 
-1. **Tecnologia Frontend:**
-    * Escolha livre: React, Vue.js, Angular, Flutter, etc.
-2. **Funcionalidades:**
-    * Listagem e busca de **Alunos**, **Professores**, **Cursos**, **Departamentos**, **Unidades Acadêmicas** e **TCCs**.
-    * Cadastramento de TCCS
-    * Interface para Alterar o Status
-3. **Gestão de Arquivos (Upload):**
-    * No cadastro de TCC, o aluno deve ser capaz de fazer o **upload de um arquivo PDF** do trabalho.
-    * O frontend deve exibir um link para download/visualização do arquivo na listagem.
-4. **Dashboard de Estatísticas:**
-    * Implementar uma tela ou seção de **Dashboard** que consuma o endpoint de estatísticas e exiba os dados (preferencialmente usando gráficos).
-5. **Não é necessário controle de permissão ou login.**
-6. **Entrega:**
-    * Enviar o link do github do código Backend e Frontend via **Campus Virtual**.
+# ✨ Funcionalidades Implementadas
 
-## Endpoints da API
+## 🎓 Gerenciamento Acadêmico
+
+* Listagem e busca de alunos.
+* Listagem e busca de professores.
+* Listagem e busca de cursos.
+* Listagem e busca de departamentos.
+* Listagem e busca de unidades acadêmicas.
+
+---
+
+## 📄 Gestão de Trabalhos
+
+* Cadastramento de novos TCCs.
+* Upload de arquivos PDF do trabalho (via `multipart/form-data`).
+* Interface para alteração de status do TCC:
+  * `0`: Em Elaboração
+  * `1`: Enviado
+  * `2`: Aprovado
+  * `3`: Reprovado
+* Visualização e download de arquivos PDF diretamente na listagem.
+
+---
+
+## 📊 Dashboard de Estatísticas
+
+* Tela interativa consumindo o endpoint de estatísticas da API.
+* Exibição visual de dados (Total geral de TCCs, divisão por status e contagem por orientador).
+* *Nota: O sistema não necessita de controle de permissões ou login.*
+
+---
+
+# 🔗 API REST
+
+A aplicação possui comunicação via API REST utilizando Django REST Framework.
+
+### Endpoints consumidos
 
 * **Unidades Acadêmicas:** `http://127.0.0.1:8000/api/unidades-academicas/`
 * **Departamentos:** `http://127.0.0.1:8000/api/departamentos/`
@@ -31,48 +53,149 @@ Este projeto é uma API REST para gerenciamento de Trabalhos de Conclusão de Cu
 * **Alunos:** `http://127.0.0.1:8000/api/alunos/`
 * **Professores:** `http://127.0.0.1:8000/api/professores/`
 * **TCCs:** `http://127.0.0.1:8000/api/tccs/`
-* **Estatísticas (Dashboard):** `http://127.0.0.1:8000/api/tccs/estatisticas/`
+* **Estatísticas:** `http://127.0.0.1:8000/api/tccs/estatisticas/`
 
-### Detalhes do Endpoint de TCCs
+---
 
-Ao enviar um TCC via POST/PUT, utilize `multipart/form-data` para o campo `arquivo`.
-Status disponíveis:
+# 🎨 Frontend
 
-* `0`: Em Elaboração
-* `1`: Enviado
-* `2`: Aprovado
-* `3`: Reprovado
+Interface desenvolvida utilizando tecnologias modernas para garantir alta performance e fluidez:
 
-### Estrutura do JSON de Estatísticas
+* Next.js
+* React
+* TypeScript
+* Tailwind CSS
 
-O endpoint `/api/tccs/estatisticas/` retorna:
+---
 
-```json
-{
-    "total_geral": 10,
-    "por_status": {
-        "Aprovado": 3,
-        "Em Elaboração": 2,
-        ...
-    },
-    "por_orientador": {
-        "Prof. Dr. Ricardo": 4,
-        ...
-    }
-}
+# 🏗️ Arquitetura do Sistema
 ```
+Frontend (Next.js)
+        ↓
+API REST (Django REST Framework)
+        ↓
+PostgreSQL
+```
+Toda a infraestrutura do projeto é conteinerizada utilizando **Docker**, garantindo a padronização e o isolamento dos ambientes de desenvolvimento.
 
-## Como Executar
+---
 
-1. `python -m venv venv`
-2. `source venv/bin/activate` Linux
-3. `venv\Scripts\activate` Windows
-4. `pip install -r requirements.txt`
-5. `python manage.py makemigrations core`
-6. `python manage.py migrate`
-7. `python load.py` (para popular dados iniciais)
-8. `python manage.py runserver`
+# 🗄️ Modelagem do Banco de Dados
 
-Para visualização das informações acesse os endpoints, como o exemplo: [http://127.0.0.1:8000/api/](http://127.0.0.1:8000/api/).
+O sistema utiliza **PostgreSQL** externo ao Django como banco de dados relacional.
 
-**Dica para o Frontend:** Lembre-se que para o upload de arquivos você não envia um JSON comum, mas sim um objeto `FormData`.
+## Principais Entidades
+
+### Alunos e Professores
+Registros dos discentes e docentes da instituição.
+
+### Cursos, Departamentos e Unidades Acadêmicas
+Estrutura organizacional da universidade.
+
+### TCC
+Entidade central que relaciona o aluno, o professor orientador, o arquivo do trabalho e o seu status atual.
+
+---
+
+# 🛠️ Tecnologias Utilizadas
+
+## Frontend
+* Next.js
+* React
+* TypeScript
+* Tailwind CSS
+
+## Backend
+* Django
+* Django REST Framework
+
+## Banco de Dados
+* PostgreSQL
+
+## DevOps
+* Docker
+* Docker Compose
+
+---
+
+# 📂 Estrutura do Projeto
+```
+gestao-tccs/
+│
+├── backend/
+│   ├── core/
+│   ├── tcc_project/
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   ├── load.py
+│   └── manage.py
+│
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   ├── package.json
+│   └── Dockerfile
+│
+└── docker-compose.yml
+```
+---
+
+# 🐳 Como Executar o Projeto
+
+## Pré-requisitos
+* Docker Desktop
+* Git (opcional)
+
+---
+
+## Subir os Containers
+Na raiz do projeto, execute o comando para construir e inicializar os serviços (banco de dados, backend e frontend):
+```
+docker compose up --build
+```
+---
+
+## Executar Configurações do Banco
+Abra outro terminal e acesse o container do backend:
+```
+docker compose exec backend bash
+```
+Gere e aplique as migrações:
+```
+python manage.py makemigrations core
+python manage.py migrate
+```
+---
+
+## Popular Dados Iniciais
+Ainda no container do backend, execute o script para popular o banco de dados:
+```
+python load.py
+```
+---
+
+# 🌐 Acessos
+
+## Frontend (Aplicação Web)
+http://localhost:3000
+
+## Backend (API REST)
+http://localhost:8000/api/
+
+---
+
+# 👥 Equipe
+
+* Samuel Vanoni
+* João
+* Daniel
+
+Universidade Federal de Lavras (UFLA)
+Disciplina: Programação Web (GAC116)
+Professor: Raphael
+
+---
+
+# 📄 Licença
+
+Projeto desenvolvido para fins acadêmicos na disciplina de Programação Web da UFLA.

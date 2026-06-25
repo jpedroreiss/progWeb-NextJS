@@ -34,6 +34,19 @@ export default async function TCCDetailPage({ params }: PageProps) {
 
   const BACKEND_URL = BACKEND_BASE_URL;
 
+  // Função para garantir que a URL do arquivo seja acessível pelo navegador
+  const getFileUrl = (url: string | null) => {
+    if (!url) return "#";
+    
+    // Se o Django retornou a URL interna do Docker, trocamos para localhost
+    if (url.includes("backend:8000")) {
+      return url.replace("backend:8000", "localhost:8000");
+    }
+    
+    // Fallback caso venha sem o host
+    return url.startsWith("http") ? url : `${BACKEND_URL}${url}`;
+  };
+
   return (
     <div className="max-w-3xl space-y-6">
       {/* Breadcrumb */}
@@ -74,7 +87,7 @@ export default async function TCCDetailPage({ params }: PageProps) {
           <div className="space-y-1">
             <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide">Arquivo</p>
             <a
-              href={`${BACKEND_URL}${tcc.arquivo}`}
+              href={getFileUrl(tcc.arquivo)}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800 font-medium underline underline-offset-2"

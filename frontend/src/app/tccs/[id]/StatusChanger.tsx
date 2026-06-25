@@ -40,16 +40,17 @@ export default function StatusChanger({ tccId, currentStatus, currentStatusDispl
   }
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 p-6 space-y-4">
-      <h3 className="font-semibold text-slate-700">Status do TCC</h3>
-
-      <div className="flex items-center gap-3">
-        <span className="text-sm text-slate-500">Atual:</span>
-        <StatusBadge status={currentStatus} label={currentStatusDisplay} />
+    <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-5">
+      <div>
+        <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wide">Status do TCC</h3>
+        <div className="flex items-center gap-2 mt-2">
+          <span className="text-sm text-slate-600">Situação atual:</span>
+          <StatusBadge status={currentStatus} label={currentStatusDisplay} />
+        </div>
       </div>
 
       <div className="space-y-3">
-        <label className="block text-sm font-medium text-slate-700">Alterar para:</label>
+        <p className="text-sm font-medium text-slate-700">Selecione o novo status:</p>
         <div className="flex flex-wrap gap-2">
           {TCC_STATUS.map((s) => (
             <button
@@ -57,10 +58,10 @@ export default function StatusChanger({ tccId, currentStatus, currentStatusDispl
               type="button"
               onClick={() => { setSelectedStatus(s.value as TCCStatus); setSuccess(false); }}
               className={`
-                px-4 py-2 rounded-lg text-sm font-medium border transition-all
+                px-4 py-2 rounded-lg text-sm font-semibold border transition-all
                 ${selectedStatus === s.value
-                  ? "bg-slate-800 text-white border-slate-800"
-                  : "bg-white text-slate-600 border-slate-300 hover:border-slate-400"
+                  ? "bg-slate-800 text-white border-slate-800 shadow-sm"
+                  : "bg-white text-slate-700 border-slate-300 hover:bg-slate-50 hover:border-slate-400"
                 }
               `}
             >
@@ -72,16 +73,20 @@ export default function StatusChanger({ tccId, currentStatus, currentStatusDispl
         <button
           onClick={handleSave}
           disabled={!hasChanged || isSaving}
-          className="mt-2 px-5 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          className="px-5 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shadow-sm"
         >
-          {isSaving ? "Salvando..." : "Salvar status"}
+          {isSaving ? "Salvando..." : "Salvar alteração"}
         </button>
 
         {success && (
-          <p className="text-green-600 text-sm font-medium">✓ Status atualizado com sucesso.</p>
+          <p className="text-emerald-700 text-sm font-semibold bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">
+            ✓ Status atualizado com sucesso.
+          </p>
         )}
         {error && (
-          <p className="text-red-600 text-sm">{error}</p>
+          <p className="text-red-700 text-sm font-medium bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+            ⚠ {error}
+          </p>
         )}
       </div>
     </div>

@@ -187,23 +187,32 @@ export default function TCCForm({ alunos, professores }: Props) {
       {/* ── Arquivo ─────────────────────────────────────────────────── */}
       <Section title="Arquivo">
         <Field label="Arquivo PDF">
-          <input
-            ref={fileRef}
-            type="file"
-            accept=".pdf"
-            onChange={handleFileChange}
-            className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-700 file:font-medium hover:file:bg-blue-100 cursor-pointer"
-          />
-          {arquivo && (
-            <p className="mt-1 text-xs text-slate-500">{arquivo.name} ({(arquivo.size / 1024).toFixed(0)} KB)</p>
-          )}
+          <label className="flex flex-col items-center justify-center w-full h-28 border-2 border-dashed border-slate-300 rounded-lg cursor-pointer bg-slate-50 hover:bg-slate-100 transition-colors">
+            <div className="flex flex-col items-center gap-1 text-slate-500">
+              <span className="text-2xl">📄</span>
+              <span className="text-sm font-medium">
+                {arquivo ? arquivo.name : "Clique para selecionar o PDF"}
+              </span>
+              {arquivo
+                ? <span className="text-xs text-slate-400">{(arquivo.size / 1024).toFixed(0)} KB</span>
+                : <span className="text-xs text-slate-400">Apenas arquivos .pdf</span>
+              }
+            </div>
+            <input
+              ref={fileRef}
+              type="file"
+              accept=".pdf"
+              onChange={handleFileChange}
+              className="hidden"
+            />
+          </label>
         </Field>
       </Section>
 
       {/* ── Feedback e Ações ────────────────────────────────────────── */}
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm">
-          {error}
+        <div className="bg-red-50 border border-red-300 text-red-700 rounded-lg px-4 py-3 text-sm font-medium">
+          ⚠ {error}
         </div>
       )}
 
@@ -211,14 +220,14 @@ export default function TCCForm({ alunos, professores }: Props) {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="px-6 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-6 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
         >
           {isSubmitting ? "Cadastrando..." : "Cadastrar TCC"}
         </button>
         <button
           type="button"
           onClick={() => router.back()}
-          className="px-6 py-2.5 text-slate-600 text-sm font-medium rounded-lg border border-slate-300 hover:bg-slate-50 transition-colors"
+          className="px-6 py-2.5 text-slate-700 text-sm font-medium rounded-lg border border-slate-300 bg-white hover:bg-slate-50 transition-colors"
         >
           Cancelar
         </button>
@@ -231,8 +240,10 @@ export default function TCCForm({ alunos, professores }: Props) {
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="bg-white rounded-xl border border-slate-200 p-6 space-y-4">
-      <h3 className="font-semibold text-slate-700 text-base border-b border-slate-100 pb-3">{title}</h3>
+    <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-5">
+      <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wide border-b border-slate-100 pb-3">
+        {title}
+      </h3>
       {children}
     </div>
   );
@@ -250,11 +261,11 @@ function Field({
   children: React.ReactNode;
 }) {
   return (
-    <div className="space-y-1">
+    <div className="space-y-1.5">
       <label className="block text-sm font-medium text-slate-700">
         {label}
-        {required && <span className="text-red-500 ml-1">*</span>}
-        {hint && <span className="text-slate-400 font-normal ml-1 text-xs">({hint})</span>}
+        {required && <span className="text-red-500 ml-1" aria-hidden>*</span>}
+        {hint && <span className="text-slate-400 font-normal ml-2 text-xs">{hint}</span>}
       </label>
       {children}
     </div>
@@ -273,7 +284,7 @@ interface ProfessorSelectProps {
 function ProfessorSelect({ name, value, professores, onChange, required, optional }: ProfessorSelectProps) {
   return (
     <select name={name} value={value ?? ""} onChange={onChange} required={required} className={inputCls}>
-      <option value="">{optional ? "— Nenhum —" : "Selecione..."}</option>
+      <option value="">{optional ? "— Nenhum —" : "Selecione um professor..."}</option>
       {professores.map((p) => (
         <option key={p.id} value={p.id}>{p.nome}</option>
       ))}
@@ -281,6 +292,11 @@ function ProfessorSelect({ name, value, professores, onChange, required, optiona
   );
 }
 
-// Classe Tailwind compartilhada entre inputs, selects e textareas
-const inputCls =
-  "w-full px-3 py-2 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow bg-white";
+// Cores explícitas para garantir legibilidade independente do tema do sistema
+const inputCls = [
+  "w-full px-3 py-2.5 text-sm rounded-lg border",
+  "bg-white text-slate-900 placeholder:text-slate-400",
+  "border-slate-300",
+  "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+  "transition-all",
+].join(" ");

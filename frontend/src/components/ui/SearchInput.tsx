@@ -39,11 +39,14 @@ export default function SearchInput({ placeholder = "Buscar..." }: Props) {
       defaultValue={searchParams.get("q") ?? ""}
       onChange={handleChange}
       placeholder={placeholder}
-      className={`
-        w-full sm:w-72 px-4 py-2 rounded-lg border border-slate-300 text-sm
-        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-        transition-opacity ${isPending ? "opacity-60" : "opacity-100"}
-      `}
+      className={[
+        "w-full sm:w-72 px-4 py-2 rounded-lg border text-sm",
+        "bg-white text-slate-900 placeholder:text-slate-400",
+        "border-slate-300 shadow-sm",
+        "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+        "transition-all",
+        isPending ? "opacity-60" : "opacity-100",
+      ].join(" ")}
     />
   );
 }
